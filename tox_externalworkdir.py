@@ -15,9 +15,7 @@ class PathFixer(object):
             for k, v in obj.items():
                 if isinstance(v, LocalPath) and self.old_path in str(v):
                     obj[k] = self.replace(v)
-                elif isinstance(v, TestenvConfig):
-                    self.fix(v)
-                elif isinstance(v, dict):
+                elif isinstance(v, (TestenvConfig, dict)):
                     self.fix(v)
         else:
             for attr_name in dir(obj):
@@ -30,9 +28,7 @@ class PathFixer(object):
                     except AttributeError:
                         # Can't set properties, etc.
                         pass
-                elif isinstance(attr, TestenvConfig):
-                    self.fix(attr)
-                elif isinstance(attr, dict):
+                elif isinstance(attr, (TestenvConfig, dict)):
                     self.fix(attr)
 
     def replace(self, item):
